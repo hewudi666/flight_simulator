@@ -1,0 +1,47 @@
+飞行数据处理：
+处理过程：
+(1)更改task3中读取的数据位置：
+path_main表示读取的是哪天的数据
+分三次选择20天的数据 
+生成dp_ar_path _1, _2
+(2)更改task3_1中读取数据位置：
+开头处
+main函数 path_dir和path_list
+生成find_all_path
+(3)更改task4中：
+main_1:
+读取find_all_path
+更改起飞降落时间 (小规模，9-12)
+更改interval_compute函数中start和end
+生成find_all_path2_3
+main_2：
+读取find_all_path2_3
+生成find_all_find3
+(4)更改task8：
+更改读取飞行数据时间
+读取find_all_path
+生成完整大规模数据
+(5)task4:
+读取find_all_path
+更改起飞降落时间 (大规模，9-12/15-18)
+更改interval_compute函数中start和end
+生成find_all_path2_4
+main_2：
+读取find_all_path2_4
+生成find_all_find3_large
+(6)task5：
+分别读取find_all_path_3和find_all_path3_large
+生成速度
+(7)task6：
+生成path_len
+(8)在1中测试速度和path_len
+
+选定数据：
+20190701：
+上午9-12 下午14-18
+20190801：
+
+20190901：
+
+20191001：
+下午已处理完

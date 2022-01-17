@@ -4,6 +4,7 @@ a flight_simulator for collision resolution
 
 
 task4.py：
+
 1.更新main_1()中
 "if dpt >= 1500 and dpt <= 1800 and art <= 1800:"部分代码
 

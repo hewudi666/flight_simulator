@@ -2,11 +2,11 @@ from task5 import flight_simulator
 import numpy as np
 import time
 
-v = np.load('E:\\飞行数据\\20190901\\下午\\大规模\\default_v_1539.npy')
+v = np.load('E:\\飞行数据\\20190901\\上午\\中规模\\default_v_953.npy')
 print("v", v.shape)
-path_len = np.load('E:\\飞行数据\\20190901\\下午\\大规模\\path_length_1539.npy')
+path_len = np.load('E:\\飞行数据\\20190901\\上午\\中规模\\path_length_953.npy')
 print("path_len_shape", path_len.shape)
-print("path_len:", path_len)
+# print("path_len:", path_len)
 # path_select = np.zeros(810).astype(np.int32)
 # dp_time = np.zeros(810).astype(np.int32)
 # start = time.time()

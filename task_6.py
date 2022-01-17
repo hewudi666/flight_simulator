@@ -51,7 +51,7 @@ def dist(lng1, lat1, lng2, lat2):
 
 
 def main():
-    flight_num = 1539
+    flight_num = 953
     dp_time = []
     for i in range(flight_num):
         dp_time.append(0)
@@ -74,7 +74,7 @@ def main():
                 length += d
             path_len_total[i][j] = length
 
-    np.save("path_length_1539.npy", path_len_total)
+    np.save("path_length_953.npy", path_len_total)
 
 
 if __name__ == '__main__':

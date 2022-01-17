@@ -22,8 +22,8 @@ def main_1():
         # if dpt >= 800 and dpt <= 1200 and art <= 1200:
         # if dpt >= 900 and dpt <= 1200 and art <= 1200:
         # if dpt >= 900 and dpt <= 1200:
-        if dpt >= 1400 and dpt <= 1800 and art <= 1800:
-        # if dpt >= 1500 and dpt <= 1800 and art <= 1800:
+        # if dpt >= 1400 and dpt <= 1800 and art <= 1800:
+        if dpt >= 1500 and dpt <= 1800 and art <= 1800:
             dp_time_main.append(dp_time[i][-5:-3] + dp_time[i][-2:])
             ar_time_main.append(ar_time[i][-5:-3] + ar_time[i][-2:])
             flight_data_main.append(flight_data[i])
@@ -42,10 +42,10 @@ def main_1():
     data['可选路径个数'] = path_num_main
     data['飞行路径'] = flight_data_main
 
-    data.to_excel("find_all_path2_4.xls")
+    data.to_excel("find_all_path2_3.xls")
 
 # 计算时隙
-def interval_compute(time, start = '1400', end = '1800'):
+def interval_compute(time, start = '1500', end = '1800'):
     start = int(start[:-2]) * 60 + int(start[-2:])
     end = int(end[:-2]) * 60 + int(end[-2:])
     time = int(time[:-2]) * 60 + int(time[-2:])
@@ -54,7 +54,7 @@ def interval_compute(time, start = '1400', end = '1800'):
 
 
 def main_2():
-    df = pd.read_excel("find_all_path2_4.xls")
+    df = pd.read_excel("find_all_path2_3.xls")
     flight_data = df['飞行路径']
     dp_port = df['起飞机场坐标']
     ar_port = df['降落机场坐标']
@@ -77,10 +77,10 @@ def main_2():
     data['可选路径个数'] = path_num
     data['飞行路径'] = flight_data
 
-    data.to_excel("find_all_path3_large.xls")
+    # data.to_excel("find_all_path3_large.xls")
     # data.to_excel("find_all_path3.xls")
-    # data.to_excel("find_all_path3_mid.xls")
+    data.to_excel("find_all_path3_mid.xls")
 
 
 if __name__ == '__main__':
-    main_2()
+    main_1()

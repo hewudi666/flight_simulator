@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif'] = 'SimHei'
 
 
-df = pd.read_excel("find_all_path3_large.xls")
+df = pd.read_excel("find_all_path3_mid.xls")
 _flight_data = df['飞行路径']
 _dp_port = df['起飞机场坐标']
 _ar_port = df['降落机场坐标']
@@ -81,6 +81,7 @@ class flight_simulator:
         self.conflict_num = 0  # 冲突总数
         self.t_step = 60  # 时间步长/s
         self.T = 1000  # 总时间--T个时间步长
+        self.conflict_num_t = []
 
         self.arrival_time = np.zeros(self.flight_num) # 各飞行器到达时间
         # 生成起飞机场和降落机场初始化
@@ -203,13 +204,13 @@ class flight_simulator:
                 L.append(len(p[j]) - 1)
             self.route_segment_total.append(L)
 
-        print("航路段列表:", self.route_segment_total)
+        # print("航路段列表:", self.route_segment_total)
         route_segment_all_data_max = []
         for i in range(self.flight_num):
             route_segment_all_data_max.append(max(self.route_segment_total[i]))
 
         self.route_segment_all_data_max = max(route_segment_all_data_max)
-        print("飞行数据所有路径最大航路段：", self.route_segment_all_data_max)
+        # print("飞行数据所有路径最大航路段：", self.route_segment_all_data_max)
 
 
         self.depart_total = self.depart_port[self.start:self.start + self.flight_num]
@@ -242,7 +243,7 @@ class flight_simulator:
 
         self.route_segment_max = max(self.route_segment)
         # print("航路段长度", self.route_segment)
-        print("route_max:", self.route_segment_max)
+        # print("route_max:", self.route_segment_max)
 
         # 速度初始化 speed单位：km/s
         v = np.zeros((self.flight_num, self.route_segment_max))
@@ -255,7 +256,7 @@ class flight_simulator:
 
         self.velocity = v
         # print("默认速度控制：", self.velocity)
-        # np.save("default_v_1539.npy", self.velocity)
+        # np.save("default_v_953.npy", self.velocity)
         # 航速单位转换 km/s ---> 单位：°/s (经纬度)
         self.velocity = self.velocity / self.angle_km
 
@@ -506,8 +507,11 @@ class flight_simulator:
                 d_mat[id[m], :] = 0
                 d_mat[:, id[m]] = 0
             conflict_matrix = np.logical_and(d_mat > 0, d_mat <= self.safe_r)
+            # print("conflict_mat", conflict_matrix)
             index = np.where(conflict_matrix == True)
             conflict_num = sum(sum(conflict_matrix))
+            # print("confict_num", conflict_num)
+            self.conflict_num_t.append(conflict_num)
             self.conflict_num += conflict_num
             # 记录冲突点数
             for j in range(len(index[0])):
@@ -546,6 +550,15 @@ class flight_simulator:
             dist_target.append(D)
 
         return dist_target
+
+    def plot_conflict_num(self):
+        plt.figure()
+        plt.title('冲突频次-时间步')
+        plt.xlabel('时间步')
+        plt.ylabel('冲突频次')
+        x = range(len(self.conflict_num_t))
+        plt.plot(x, self.conflict_num_t)
+        plt.show()
 
     def plot(self):
         """
@@ -595,7 +608,7 @@ class flight_simulator:
 
 
 def main():
-    flight_num = 1405
+    flight_num = 925
     dp_time = []
     for i in range(flight_num):
         dp_time.append(0)
@@ -607,8 +620,8 @@ def main():
     # v_control = np.load('default_v.npy')
     # dp_time = np.array(dp_time).astype(int)
     # path_select = np.array(path_select).astype(int) - 1
-    print("dp_time:", dp_time)
-    print("path_select:", path_select)
+    # print("dp_time:", dp_time)
+    # print("path_select:", path_select)
     # print("v_control:", v_control)
     start = time.time()
     simulator = flight_simulator(dp_time, path_select)
@@ -616,18 +629,19 @@ def main():
     print("初始化花费时间:", end1 - start)
     # v_control = v_control / 60
     # simulator.velocity_input(v_control)
-    # simulator.flight_update()
+    simulator.flight_update()
     end2 = time.time()
-    # # 更新时间
-    # print("更新花费时间：", end2 - end1)
-    # # 冲突次数
-    # print("冲突次数：", simulator.conflict_num)
-    # # 飞行器到达状态：0表示未到达, 1表示已到达
-    # print("到达状态：", simulator.teriminal)
-    # # 延误时间
-    # print("延迟时间：", simulator.delay_time)
-    # # 总延迟时间
-    # print("总延迟时间:", sum(simulator.delay_time))
+    simulator.plot_conflict_num()
+    # 更新时间
+    print("更新花费时间：", end2 - end1)
+    # 冲突次数
+    print("冲突次数：", simulator.conflict_num)
+    # 飞行器到达状态：0表示未到达, 1表示已到达
+    print("到达状态：", simulator.teriminal)
+    # 延误时间
+    print("延迟时间：", simulator.delay_time)
+    # 总延迟时间
+    print("总延迟时间:", sum(simulator.delay_time))
     # simulator.data_save()
     # simulator.plot()
     # 最后时刻所有飞行器位置
